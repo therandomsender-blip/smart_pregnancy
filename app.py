@@ -283,33 +283,53 @@ with tab2:
 
 # ── TAB 3: MODEL PERFORMANCE ──
 with tab3:
-    st.subheader("📈 Model Performance Summary (with 95% Confidence Intervals)")
+    st.subheader("🔬 Scientifically Primary Model (Leakage-Free Predictive Model)")
+    st.info("💡 **Scientific Design**: Gestational Diabetes is excluded as an input feature. GDM is predicted purely from physiological biomarkers (`BS`, `BMI`, `BP`, `Age`, etc.) with zero circular target leakage.")
 
-    perf_data = {
+    perf_data_lf = {
         'Metric': [
             'Overall Accuracy',
             'Macro F1-Score',
             'ROC-AUC (Weighted OvR)',
-            '🔴 High Risk F1',
-            '🟠 High GDM F1',
-            '🟢 Low Risk F1',
-            '🟡 Moderate Risk F1'
+            '🟠 High GDM F1-Score',
+            '— GDM Sensitivity (Recall)',
+            '— GDM Precision',
+            '🔴 High Risk F1-Score',
+            '🟢 Low Risk F1-Score',
+            '🟡 Moderate Risk F1-Score'
         ],
-        'XGBoost (Est.)': [
-            '94.20%', '0.9422', '0.9920', '0.9686', '1.0000', '0.9065', '0.8936'
+        'XGBoost (Primary)': [
+            '91.07%', '0.9108', '0.9879', '0.9600', '96.43%', '95.58%', '0.9279', '0.8796', '0.8755'
         ],
         'XGBoost (95% CI)': [
-            '91.96% – 96.21%', '0.9199 – 0.9615', '0.9867 – 0.9962', '0.9423 – 0.9894', '1.0000 – 1.0000', '0.8605 – 0.9432', '0.8488 – 0.9309'
+            '88.39% – 93.53%', '0.8842 – 0.9359', '0.9819 – 0.9929', '0.9309 – 0.9829', '92.38% – 99.18%', '91.41% – 99.08%', '0.8898 – 0.9607', '0.8309 – 0.9224', '0.8295 – 0.9182'
         ],
-        'Random Forest (Est.)': [
-            '89.73%', '0.8980', '0.9857', '0.9455', '1.0000', '0.8259', '0.8207'
+        'Random Forest': [
+            '88.62%', '0.8863', '0.9812', '0.9515', '96.43%', '93.91%', '0.9091', '0.8473', '0.8374'
         ],
         'Random Forest (95% CI)': [
-            '86.83% – 92.41%', '0.8700 – 0.9233', '0.9783 – 0.9920', '0.9116 – 0.9741', '1.0000 – 1.0000', '0.7640 – 0.8796', '0.7640 – 0.8671'
+            '85.71% – 91.52%', '0.8566 – 0.9141', '0.9728 – 0.9880', '0.9212 – 0.9762', '92.56% – 99.15%', '89.19% – 97.70%', '0.8652 – 0.9459', '0.7895 – 0.8984', '0.7851 – 0.8828'
         ]
     }
-    st.dataframe(pd.DataFrame(perf_data), use_container_width=True)
-    st.caption("Empirical 95% Confidence Intervals computed via non-parametric bootstrapping (N = 2,000 iterations).")
+    st.dataframe(pd.DataFrame(perf_data_lf), use_container_width=True)
+    st.caption("Empirical 95% Confidence Intervals computed via non-parametric bootstrapping ($N = 2,000$ iterations) on independent test set ($N = 448$).")
+
+    st.markdown("---")
+    st.subheader("📊 Ablation Study: Predictive Screening vs. Known Diagnosis")
+    ablation_data = {
+        'Model Configuration': [
+            '🔬 Scientifically Primary (Biomarkers Only, Leakage-Free)',
+            '📋 Benchmark (with Prior Diagnosis Flag)'
+        ],
+        'Overall Accuracy': ['91.07%', '94.20%'],
+        'GDM F1-Score': ['0.9600 (95% CI: 0.9309–0.9829)', '1.0000 (Circular)'],
+        'GDM Sensitivity': ['96.43% (95% CI: 92.38–99.18%)', '100.00%'],
+        'Clinical Use-Case': [
+            'Early prospective screening prior to GDM onset',
+            'Triaging when GDM is already formally charted'
+        ]
+    }
+    st.dataframe(pd.DataFrame(ablation_data), use_container_width=True)
 
     st.markdown("---")
     col1, col2 = st.columns(2)

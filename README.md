@@ -43,17 +43,32 @@ The model evaluates 10 core clinical features selected via Recursive Feature Eli
 
 ## 🏆 Model Performance & 95% Confidence Intervals
 
-Evaluated on the held-out test cohort ($N = 448$). Confidence intervals ($95\%\text{ CI}$) were calculated using **non-parametric bootstrapping ($2,000$ iterations)**:
+### 🔬 Scientifically Primary Model (Leakage-Free Predictive Model)
+> **Scientific Design**: To prevent target leakage, **Gestational Diabetes is excluded as an input feature**. The model predicts GDM and obstetric risk purely from physiological biomarkers (`Blood Sugar (BS)`, `BMI`, `Systolic/Diastolic BP`, `Heart Rate`, `Age`, `Preexisting Diabetes`, `Previous Complications`, `Mental Health`).
 
-| Metric | XGBoost (Primary) | XGBoost (95% CI) | Random Forest | Random Forest (95% CI) |
+Evaluated on the independent test cohort ($N = 448$). All confidence intervals ($95\%\text{ CI}$) were calculated via **non-parametric bootstrapping ($2,000$ iterations)**:
+
+| Metric | XGBoost (Scientifically Primary) | XGBoost (95% CI) | Random Forest | Random Forest (95% CI) |
 | :--- | :---: | :---: | :---: | :---: |
-| **Overall Accuracy** | **94.20%** | **91.96% – 96.21%** | **89.73%** | **86.83% – 92.41%** |
-| **Macro F1-Score** | **0.9422** | **0.9199 – 0.9615** | **0.8980** | **0.8700 – 0.9233** |
-| **ROC-AUC (Weighted OvR)** | **0.9920** | **0.9867 – 0.9962** | **0.9857** | **0.9783 – 0.9920** |
-| **🔴 High Risk F1-Score** | **0.9686** | **0.9423 – 0.9894** | **0.9455** | **0.9116 – 0.9741** |
-| **🟠 High GDM F1-Score** | **1.0000** | **1.0000 – 1.0000** | **1.0000** | **1.0000 – 1.0000** |
-| **🟢 Low Risk F1-Score** | **0.9065** | **0.8605 – 0.9432** | **0.8259** | **0.7640 – 0.8796** |
-| **🟡 Moderate Risk F1-Score**| **0.8936** | **0.8488 – 0.9309** | **0.8207** | **0.7640 – 0.8671** |
+| **Overall Accuracy** | **91.07%** | **88.39% – 93.53%** | **88.62%** | **85.71% – 91.52%** |
+| **Macro F1-Score** | **0.9108** | **0.8842 – 0.9359** | **0.8863** | **0.8566 – 0.9141** |
+| **ROC-AUC (Weighted OvR)** | **0.9879** | **0.9819 – 0.9929** | **0.9812** | **0.9728 – 0.9880** |
+| **🟠 High GDM F1-Score** | **0.9600** | **0.9309 – 0.9829** | **0.9515** | **0.9212 – 0.9762** |
+| **— GDM Recall (Sensitivity)**| **96.43%** | **92.38% – 99.18%** | **96.43%** | **92.56% – 99.15%** |
+| **— GDM Precision** | **95.58%** | **91.41% – 99.08%** | **93.91%** | **89.19% – 97.70%** |
+| **🔴 High Risk F1-Score** | **0.9279** | **0.8898 – 0.9607** | **0.9091** | **0.8652 – 0.9459** |
+| **🟢 Low Risk F1-Score** | **0.8796** | **0.8309 – 0.9224** | **0.8473** | **0.7895 – 0.8984** |
+| **🟡 Moderate Risk F1-Score**| **0.8755** | **0.8295 – 0.9182** | **0.8374** | **0.7851 – 0.8828** |
+
+---
+
+### 📊 Ablation Analysis: Leakage-Free vs. Diagnostic Flag
+In clinical research, distinguishing between risk screening and known prior diagnosis is critical:
+
+| Evaluation Protocol | Overall Accuracy | GDM F1-Score | GDM Sensitivity | Clinical Interpretation |
+| :--- | :---: | :---: | :---: | :--- |
+| **Scientifically Primary (Biomarkers Only)** | **91.07%** | **0.9600** | **96.43%** | **Early prediction & screening prior to GDM onset** |
+| Benchmark with Prior Diagnosis Flag | 94.20% | 1.0000 | 100.00% | Consensus triaging when GDM is already formally charted |
 
 ---
 
