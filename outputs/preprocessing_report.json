@@ -1,0 +1,67 @@
+{
+  "original_shape": [
+    2219,
+    18
+  ],
+  "rows_dropped_no_target": 18,
+  "target_classes": {
+    "High": 0,
+    "High_GDM": 1,
+    "Low": 2,
+    "Mid": 3
+  },
+  "missing_before": {
+    "BMI": 1028,
+    "SystolicBP": 4,
+    "DiastolicBP": 2,
+    "BS": 1,
+    "HeartRate": 1,
+    "PreviousComplications": 1015,
+    "PreexistingDiabetes": 1015,
+    "GestationalDiabetes": 1014,
+    "MentalHealth": 1014
+  },
+  "missing_after": 0,
+  "class_dist_before_smote": {
+    "High": 606,
+    "High_GDM": 140,
+    "Low": 1119,
+    "Mid": 336
+  },
+  "class_dist_after_smote": {
+    "High": 1119,
+    "High_GDM": 1119,
+    "Low": 1119,
+    "Mid": 1119
+  },
+  "shape_after_smote": [
+    4476,
+    17
+  ],
+  "selected_features": [
+    "Age",
+    "BMI",
+    "SystolicBP",
+    "DiastolicBP",
+    "BS",
+    "HeartRate",
+    "PreviousComplications",
+    "PreexistingDiabetes",
+    "GestationalDiabetes",
+    "MentalHealth"
+  ],
+  "eliminated_features": [
+    "Hb",
+    "RBC",
+    "BodyTemp",
+    "Fatigue",
+    "Dizziness",
+    "NutritionStatus",
+    "AnemiaSeverity"
+  ],
+  "split": {
+    "train": 3580,
+    "val": 448,
+    "test": 448
+  }
+}
