@@ -1,6 +1,6 @@
 # 🤰 Smart Pregnancy Monitoring System
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://therandomsender-blip-smart-pregnancy-app-ggocij.streamlit.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Machine Learning](https://img.shields.io/badge/ML-XGBoost%20%7C%20Random%20Forest-green.svg)](#model-performance)
