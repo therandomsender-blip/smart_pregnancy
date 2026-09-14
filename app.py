@@ -30,6 +30,16 @@ def load_models():
     with open(BASE_DIR / "rf_model.pkl", "rb") as f:
         rf = pickle.load(f)
 
+    # Load scaler if available
+    scaler = None
+    scaler_path = BASE_DIR / "scaler.pkl"
+    if scaler_path.exists():
+        try:
+            with open(scaler_path, "rb") as f:
+                scaler = pickle.load(f)
+        except Exception:
+            pass
+
     # Default fallback mapping
     class_map = {0: 'High', 1: 'High_GDM', 2: 'Low', 3: 'Mid'}
     mapping_file = BASE_DIR / "outputs" / "label_encoder_classes.json"
@@ -41,9 +51,9 @@ def load_models():
         except Exception:
             pass
 
-    return xgb, rf, class_map
+    return xgb, rf, class_map, scaler
 
-xgb_model, rf_model, CLASS_MAP = load_models()
+xgb_model, rf_model, CLASS_MAP, scaler = load_models()
 
 # ─────────────────────────────────────
 # FEATURES
@@ -126,15 +136,18 @@ with tab1:
             heart_rate, prev_comp, pre_diab, gest_diab, mental
         ]], columns=features)
 
-        xgb_raw = xgb_model.predict(input_data)[0]
-        rf_raw  = rf_model.predict(input_data)[0]
+        # Apply scaling to match trained model distribution
+        model_input = pd.DataFrame(scaler.transform(input_data), columns=features) if scaler is not None else input_data
+
+        xgb_raw = xgb_model.predict(model_input)[0]
+        rf_raw  = rf_model.predict(model_input)[0]
 
         # Map predictions to clinical labels
         xgb_pred = CLASS_MAP.get(int(xgb_raw) if isinstance(xgb_raw, (int, np.integer)) else xgb_raw, str(xgb_raw))
         rf_pred  = CLASS_MAP.get(int(rf_raw) if isinstance(rf_raw, (int, np.integer)) else rf_raw, str(rf_raw))
 
-        xgb_proba = xgb_model.predict_proba(input_data)[0]
-        rf_proba  = rf_model.predict_proba(input_data)[0]
+        xgb_proba = xgb_model.predict_proba(model_input)[0]
+        rf_proba  = rf_model.predict_proba(model_input)[0]
 
         classes = xgb_model.classes_
         class_labels = [CLASS_MAP.get(int(c) if isinstance(c, (int, np.integer)) else c, str(c)) for c in classes]
@@ -207,7 +220,10 @@ with tab2:
             heart_rate, prev_comp, pre_diab, gest_diab, mental
         ]], columns=features)
 
-        xgb_raw = xgb_model.predict(input_data)[0]
+        # Apply scaling to match trained model distribution
+        model_input = pd.DataFrame(scaler.transform(input_data), columns=features) if scaler is not None else input_data
+
+        xgb_raw = xgb_model.predict(model_input)[0]
         xgb_pred = CLASS_MAP.get(int(xgb_raw) if isinstance(xgb_raw, (int, np.integer)) else xgb_raw, str(xgb_raw))
 
         classes = xgb_model.classes_
@@ -217,7 +233,7 @@ with tab2:
             pred_idx = list(classes).index(xgb_raw)
 
         explainer   = shap.TreeExplainer(xgb_model)
-        shap_values = explainer.shap_values(input_data)
+        shap_values = explainer.shap_values(model_input)
 
         # Handle multiclass vs single output SHAP shapes
         if len(shap_values.shape) == 3:
