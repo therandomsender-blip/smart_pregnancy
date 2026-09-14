@@ -283,17 +283,33 @@ with tab2:
 
 # ── TAB 3: MODEL PERFORMANCE ──
 with tab3:
-    st.subheader("📈 Model Performance Summary")
+    st.subheader("📈 Model Performance Summary (with 95% Confidence Intervals)")
 
     perf_data = {
-        'Model':     ['XGBoost', 'Random Forest'],
-        'Accuracy':  ['94.20%', '92.40%'],
-        'High F1':   ['0.97', '0.93'],
-        'GDM F1':    ['1.00', '1.00'],
-        'Low F1':    ['0.91', '0.89'],
-        'Mid F1':    ['0.89', '0.87'],
+        'Metric': [
+            'Overall Accuracy',
+            'Macro F1-Score',
+            'ROC-AUC (Weighted OvR)',
+            '🔴 High Risk F1',
+            '🟠 High GDM F1',
+            '🟢 Low Risk F1',
+            '🟡 Moderate Risk F1'
+        ],
+        'XGBoost (Est.)': [
+            '94.20%', '0.9422', '0.9920', '0.9686', '1.0000', '0.9065', '0.8936'
+        ],
+        'XGBoost (95% CI)': [
+            '91.96% – 96.21%', '0.9199 – 0.9615', '0.9867 – 0.9962', '0.9423 – 0.9894', '1.0000 – 1.0000', '0.8605 – 0.9432', '0.8488 – 0.9309'
+        ],
+        'Random Forest (Est.)': [
+            '89.73%', '0.8980', '0.9857', '0.9455', '1.0000', '0.8259', '0.8207'
+        ],
+        'Random Forest (95% CI)': [
+            '86.83% – 92.41%', '0.8700 – 0.9233', '0.9783 – 0.9920', '0.9116 – 0.9741', '1.0000 – 1.0000', '0.7640 – 0.8796', '0.7640 – 0.8671'
+        ]
     }
     st.dataframe(pd.DataFrame(perf_data), use_container_width=True)
+    st.caption("Empirical 95% Confidence Intervals computed via non-parametric bootstrapping (N = 2,000 iterations).")
 
     st.markdown("---")
     col1, col2 = st.columns(2)

@@ -41,17 +41,19 @@ The model evaluates 10 core clinical features selected via Recursive Feature Eli
 
 ---
 
-## 🏆 Model Performance
+## 🏆 Model Performance & 95% Confidence Intervals
 
-Models were trained, validated, and evaluated on preprocessed clinical cohorts:
+Evaluated on the held-out test cohort ($N = 448$). Confidence intervals ($95\%\text{ CI}$) were calculated using **non-parametric bootstrapping ($2,000$ iterations)**:
 
-| Metric | XGBoost | Random Forest |
-| :--- | :---: | :---: |
-| **Overall Accuracy** | **94.20%** | **92.40%** |
-| **High Risk F1-Score** | **0.97** | **0.93** |
-| **High GDM Risk F1-Score** | **1.00** | **1.00** |
-| **Low Risk F1-Score** | **0.91** | **0.89** |
-| **Moderate Risk F1-Score**| **0.89** | **0.87** |
+| Metric | XGBoost (Primary) | XGBoost (95% CI) | Random Forest | Random Forest (95% CI) |
+| :--- | :---: | :---: | :---: | :---: |
+| **Overall Accuracy** | **94.20%** | **91.96% – 96.21%** | **89.73%** | **86.83% – 92.41%** |
+| **Macro F1-Score** | **0.9422** | **0.9199 – 0.9615** | **0.8980** | **0.8700 – 0.9233** |
+| **ROC-AUC (Weighted OvR)** | **0.9920** | **0.9867 – 0.9962** | **0.9857** | **0.9783 – 0.9920** |
+| **🔴 High Risk F1-Score** | **0.9686** | **0.9423 – 0.9894** | **0.9455** | **0.9116 – 0.9741** |
+| **🟠 High GDM F1-Score** | **1.0000** | **1.0000 – 1.0000** | **1.0000** | **1.0000 – 1.0000** |
+| **🟢 Low Risk F1-Score** | **0.9065** | **0.8605 – 0.9432** | **0.8259** | **0.7640 – 0.8796** |
+| **🟡 Moderate Risk F1-Score**| **0.8936** | **0.8488 – 0.9309** | **0.8207** | **0.7640 – 0.8671** |
 
 ---
 
