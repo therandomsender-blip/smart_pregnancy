@@ -73,7 +73,7 @@ To ensure clinical trust and interpretability:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/<your-username>/smart_pregnancy.git
+   git clone https://github.com/therandomsender-blip/smart_pregnancy.git
    cd smart_pregnancy
    ```
 
@@ -109,7 +109,7 @@ Deploying this app is completely free and takes less than 2 minutes:
 2. **Go to Streamlit Community Cloud**: Visit [share.streamlit.io](https://share.streamlit.io) and log in using your GitHub account.
 3. **Create New App**:
    - Click **"Create app"** / **"New app"**.
-   - Select your repository: `smart_pregnancy`.
+   - Select your repository: `therandomsender-blip/smart_pregnancy`.
    - Branch: `main`.
    - Main file path: `app.py`.
 4. **Deploy**: Click **"Deploy!"**.
